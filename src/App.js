@@ -1,11 +1,15 @@
 import React from 'react'
 import Header from './components/Header'
+import FeedbackItem from './components/FeedbackItem'
 
 const App = () => {
     return (
         <>
             <Header />
-            <h1>Hello from the App Component</h1>
+            <div className="container">
+                <FeedbackItem />
+            </div>
+
         </>
     )
 }
