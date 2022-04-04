@@ -38,7 +38,7 @@ const FeedbackForm = ({handleAdd}) => {
         }    
         handleAdd(newFeedback)
         setText('')
-        console.log('Feedback Form', newFeedback)
+        //console.log('Feedback Form', newFeedback)
     }
   }
 
