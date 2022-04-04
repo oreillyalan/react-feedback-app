@@ -14,7 +14,7 @@ const RatingSelect = ({select}) => {
         {Array.from({ 
             length: 10 /// Create 10 indexes with undefined values
          }, 
-         (v, i) => ( // Run a map function on said indexes using v as value[undefined] and i as key)[0 to 4]
+         (_, i) => ( // Run a map function on said indexes using v as value[undefined] and i as key)[0 to 4]
             <li key={`rating-${i + 1}`}>
                 <input
                     type='radio'

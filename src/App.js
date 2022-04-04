@@ -17,11 +17,16 @@ const App = () => {
         }
     }
 
+    const addFeedback = (newFeedback) => {
+        setFeedback([newFeedback, ...feedBack]) //create a nw array of the old items and my new one
+        console.log('App', newFeedback);
+    }
+
     return (
         <>
             <Header />
             <div className="container">
-                <FeedbackForm />
+                <FeedbackForm handleAdd={addFeedback} />
                 <FeedbackStats feedBack={feedBack} />
                 <FeedbackList feedBack={feedBack} handleDelete={deleteFeedback} />
             </div>
