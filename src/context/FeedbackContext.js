@@ -1,6 +1,4 @@
 import { createContext, useState, useEffect } from "react";
-// import FeedbackData from "../data/FeedbackData";
-// import { feedback } from db.json
 const FeedbackContext = createContext()
 
 
@@ -21,38 +19,59 @@ export const FeedbackProvider = ({ children }) => {
 
     const fetchFeedback = async () => {
 
-        const response = await fetch(`http://localhost:5000/feedback`)
-        //console.log(response)
+        const response = await fetch(`http://localhost:5000/feedback?_sort=rating&_order=desc`)
+        // console.log(response)
         const data = await response.json()
         setFeedback(data)
         setIsLoading(false)
     }
 
-    const addFeedback = (newFeedback) => {
-        setFeedback([newFeedback, ...feedback]) //create a nw array of the old items and my new one
+    const addFeedback = async (newFeedback) => {
+        const response = await fetch('http://localhost:5000/feedback', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(newFeedback),
+        })
+
+        const data = await response.json();
+        setFeedback([data, ...feedback]) //create a nw array of the old items and my new one
         //console.log('App', newFeedback);
     }
 
-    const deleteFeedback = (item) => {
+    const deleteFeedback = async (item) => {
         if (window.confirm('Are you sure you want to delete?')) {
+            await fetch(`http://localhost:5000/feedback/${item.id}`, {
+                method: 'DELETE'
+            })
             setFeedback(feedback.filter(
                 (eachItem) => eachItem.id !== item.id
             ))
         }
     }
 
-    const editFeedback = (item) => {
+    const editFeedback = async (item) => {
         setFeedbackEdit({
             item,
             edit: true
         })
     }
 
-    const updateFeedback = (id, updatedItem) => {
+    const updateFeedback = async (id, updatedItem) => {
         //console.log(id, updatedItem);
+        const response = await fetch(`http://localhost:5000/feedback/${id}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(updatedItem),
+        })
+
+        const data = await response.json();
 
         //While merging objects, if a key already present then it is replaced by last object with same key.
-        setFeedback(feedback.map((item) => item.id === id ? { ...item, ...updatedItem } : item))
+        setFeedback(feedback.map((item) => item.id === id ? { ...item, ...data } : item))
 
     }
 
